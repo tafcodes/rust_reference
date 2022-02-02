@@ -8,8 +8,7 @@ use std::cmp::Ordering;
 
 fn main() {
     println!("Guess numbers till you get it.");
-    println!("Input guess: ");
-    let mut guess = String::new();
+    
     //vars are immutable by default.  
     //mut is a TODO ??????? WHAT IS IT?
     //mut makes them mutable obviously, but what _is_ 'mut'?
@@ -22,22 +21,35 @@ fn main() {
 
     println!("Secret is {}", secret);
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+    loop {
+        let mut guess = String::new();
+        println!("Input guess: ");
 
-    let guess: u32 = guess.trim().parse().expect("Shoulda typed numbers");
-    //this is called __shadowing__, so I assume that I can still get
-    //to either 'guess' depending on whether the type needed is a String
-    //or a u32
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+            //expect is a way of unwrapping results.
 
+        let guess: u32 = match guess.trim().parse() {
+            //we can also explicitly unwrap results if we need
+            Ok(num) => num, //this pattern is an Ok variant which contains a val
+            Err(_) => continue
+            //in this case, the error handling is not to panic.
+        };
+        //this is called __shadowing__, so I assume that I can still get
+        //to either 'guess' depending on whether the type needed is a String
+        //or a u32
 
-
-    match guess.cmp(&secret){
-        Ordering::Less => println!("Too small"),
-        Ordering::Greater => println!("too big"),
-        Ordering::Equal => println!("Winner winner")
-    }
+        match guess.cmp(&secret){
+            Ordering::Less => println!("Too small"),
+            Ordering::Greater => println!("too big"),
+            Ordering::Equal => {
+                println!("Winner winner");
+                break;
+            }
+        }
+    };
+    println!("You won, so now you get to leave.")
 
     /*another way to write that would be like:
     let stdin_handle = std::io::stdin();
@@ -55,7 +67,5 @@ fn main() {
         //That's neat!
     }
     */
-
-    println!("You guessed: {}", guess);
 
 }
