@@ -17,6 +17,9 @@ fn main() {
     //Rust has primitives, like 'str', which String uses.  
 
     let secret = rand::thread_rng().gen_range(1..101);
+    //This type is inferred because later we compare it to guess.
+
+
     println!("Secret is {}", secret);
 
     io::stdin()
@@ -27,7 +30,7 @@ fn main() {
     //this is called __shadowing__, so I assume that I can still get
     //to either 'guess' depending on whether the type needed is a String
     //or a u32
-    
+
 
 
     match guess.cmp(&secret){
