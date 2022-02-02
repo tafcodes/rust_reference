@@ -6,3 +6,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+rand = "0.8.3"
+#actually this is shorthand for "^0.8.3", which could
+#actually mean "0.8.4" or "0.8.29" or anything before "0.9.x"
+#where the API might change
+
+#Cargo.lock will lock in versions, and `cargo update` will
+#refigure all the dependencies and destroy cargo.lock.
+
