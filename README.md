@@ -47,3 +47,10 @@ It might be interesting to give other people a way to participate.  This is a fu
 algorithmic space.  Maybe let people write their own algorithms and compete for 
 max throughput under specific conditions?  All I'd need to do is allow uploading,
 do some sandboxed serverside execution, and host a leaderboard with test results....
+
+## The Present
+
+I will be learning Rust as I go along, so this repo is going to have a long and varied history, rather than tracking just the simple implementation of a project.
+
+
+
