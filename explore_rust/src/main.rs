@@ -34,13 +34,16 @@ fn main() {
     //chars are ***four bytes***, which I believe makes them able
     //to hold *most* UTF-8 things, but ****NOT EVERYTHING****
 
-    let c = "c";
-    let ch = 'c';
+    //let _: () = "c";
+    //see note below,
+    //the above expr is a &str
+    //let _: () = 'c';
+    //see note below,
+    //the above expr is a char
+
+    //Ok....so types don't really exist at runtime, therefore the only
+    //way to figure out the type of an expression is to piss off the 
+    //compiler by provoking a deliberate mismatch???
 
 
-
-    println!("Type of double-quoted char is inferred as {}",
-       std::any::type_name_of_val(c));
-    println!("Type of single-quoted char is inferred as {}",
-        std::any::type_name_of_val(&ch));
 }
