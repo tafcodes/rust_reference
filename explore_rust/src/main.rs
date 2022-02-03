@@ -34,16 +34,13 @@ fn main() {
     //chars are ***four bytes***, which I believe makes them able
     //to hold *most* UTF-8 things, but ****NOT EVERYTHING****
 
-    //let c = "c";
+    let c = "c";
     let ch = 'c';
 
-    //use std::any::type_name;
-    fn type_of<T>(_: &T) {
-        return std::any::type_name::<T>();
-    }
 
-    //println!("Type of double-quoted char is inferred as {}",
-    //    type_of(c));
+
+    println!("Type of double-quoted char is inferred as {}",
+       std::any::type_name_of_val(c));
     println!("Type of single-quoted char is inferred as {}",
-        type_of(&ch));
+        std::any::type_name_of_val(&ch));
 }
