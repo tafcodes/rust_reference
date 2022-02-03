@@ -45,5 +45,29 @@ fn main() {
     //way to figure out the type of an expression is to piss off the 
     //compiler by provoking a deliberate mismatch???
 
+    //compound types
+
+    let tuple: (i32, f64, u8) = (500, 12.8, 255);
+    
+    //let arr = [1, 2, 3.14, 50000000000000];
+    //hoping this becomes a float64?
+    //but it does not.  It thinks everything should be an int, because
+    //the first item was?
+    //so we would have to hint it like this:
+
+    //let arr: [f64] = [1,2,3.14, 5000000000];
+    //that doesn't work either, because it sees integer literals
+    //and will NOT cast seamlessly to floats.  
+    //so you actually have to do it like this:
+    let arr = [1.0,2.0,3.14, 5000000000.0];
+    //but if I want to mandate the type, 
+    //I will also have to mandate the length
+
+    let one_thousand_zeroes = [0;1000];
+    //arrays are on the stack, not heap.
+    //if you want them to be growable, you can use a vector
+    //which will be on the heap
+
+
 
 }
