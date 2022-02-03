@@ -14,7 +14,7 @@ fn main() {
 
     //I'm curious though, what if I just call it a "str"?
     //(I'm assuming &str is a pointer to a raw str)
-    const hey: str = "Hey";
+    //const hey: str = "Hey";
     //interesting.  It seems like consts have a Trait "sized",
     //and the compiler won't infer size at compile time...
 
@@ -22,7 +22,29 @@ fn main() {
     //const hey: &str = "Hey";
     //but can we type it as a "str" if it's a _variable_?
 
-    let heyv = "Hey";
+    //let heyv = "Hey";
+    //it's unused.  I get a compiler warning for that.  Neat!
+    //I can prefix it with a _ to avoid that warning.
 
+    //let _heyv = "Hey";
+    //nice.
+
+    //but, back to the types.  What happens if I try to call it a str?
+
+    //let _heyv: str = "Hey";
+    //Okay.  The compiler makes it clear that the right side of the expr
+    //is a "&str".  So it's a simple type mismatch.  
+    //Subsequently, I *also* get a warning about the "Sized" Trait.  
+
+    //So I want to know how to explicitly print types, because I
+    //will get confused later and want to print the types of things
+    //println!("A string literal is type: {}", std::any::type_name("literal"))
+    //okay, that doesn't work.  type_name takes zero args?
+    //off to the doc
+
+    //ok, I'm going to leave that one alone for now until I understand
+    //type-generic functions in rust.
+
+    
 
 }
