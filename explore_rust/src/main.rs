@@ -28,4 +28,22 @@ fn main() {
 
     let a_double = 1.69; //will default to f64
     let another_dub = 1_000_000.60009f64;
+
+    //there's only one kind of bool and it's a byte.
+
+    //chars are ***four bytes***, which I believe makes them able
+    //to hold *most* UTF-8 things, but ****NOT EVERYTHING****
+
+    //let c = "c";
+    let ch = 'c';
+
+    //use std::any::type_name;
+    fn type_of<T>(_: &T) {
+        return std::any::type_name::<T>();
+    }
+
+    //println!("Type of double-quoted char is inferred as {}",
+    //    type_of(c));
+    println!("Type of single-quoted char is inferred as {}",
+        type_of(&ch));
 }
