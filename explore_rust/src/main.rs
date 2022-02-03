@@ -26,5 +26,6 @@ fn main() {
     let bits: u8 = 0b0000_0110;
     println!("A billion looks like {}", a_billion);
 
-
+    let a_double = 1.69; //will default to f64
+    let another_dub = 1_000_000.60009f64;
 }
