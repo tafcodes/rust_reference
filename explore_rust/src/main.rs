@@ -69,5 +69,18 @@ fn main() {
     //which will be on the heap
 
 
+    //later on I will make this a module that exports some things
+    println!("{}",fib(5))
+}
 
+fn fib(n: u64) {
+    if n == 0 {
+        return 1
+    }
+
+    if n == 1 { 
+        return 1
+    }
+
+    return fib(n - 1) + fib(n - 2)
 }
