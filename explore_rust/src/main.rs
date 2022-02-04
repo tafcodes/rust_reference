@@ -68,12 +68,25 @@ fn main() {
     //if you want them to be growable, you can use a vector
     //which will be on the heap
 
+    let y = {
+        //expressions can be blocks.
+        //blocks can ofc have statements
+        let x = 3;
+        x+1
+    }
+    //will evaluate to y being 4
+
 
     //later on I will make this a module that exports some things
-    println!("{}",fib(5))
+    println!("{}",fib(100))
 }
 
-fn fib(n: u64) {
+///calling a macro is an expression?
+
+//when you don't use a semicolon, you're finishing an expression
+
+
+fn fib(n: u64) -> u64 {
     if n == 0 {
         return 1
     }
@@ -82,5 +95,5 @@ fn fib(n: u64) {
         return 1
     }
 
-    return fib(n - 1) + fib(n - 2)
+    fib(n - 1) + fib(n - 2)
 }
