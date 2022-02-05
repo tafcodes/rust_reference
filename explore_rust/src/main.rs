@@ -73,17 +73,49 @@ fn main() {
         //blocks can ofc have statements
         let x = 3;
         x+1
-    }
+    };
     //will evaluate to y being 4
 
 
     //later on I will make this a module that exports some things
-    println!("{}",fib(100))
+    println!("{}",fib("50"));
 }
 
 ///calling a macro is an expression?
 
-//when you don't use a semicolon, you're finishing an expression
+//when you don't use a semicolon, it's only an expression,
+//not a statement
+fn sfib(n: &str) -> &str {
+    //now we'll shadow 
+
+
+    //I want to see the compiler warnings that I get, so
+    //let n: u32 = n.trim().parse(); //predict this will be a type mismatch
+    //because it will return a result that will NOT be implicitly used.
+    //nice!
+
+    //so it will actually have to be like this:
+    let n: u32 = match n.trim().parse() {
+            //we can also explicitly unwrap results if we need
+            Ok(num) => num, //this pattern is an Ok variant which contains a val
+            Err(_) => panic!("Couldn't parse n to int")
+            //in this case, the error handling is not to panic.
+    };
+
+
+    if n==0 || n==1 {
+        return "1"
+    }
+
+    sfib(to_str(n -1)) + sfib(to_str(n-2))
+
+}
+
+//now I'm just being deliberately bad
+fn to_str(x: u32) -> &str {
+    let s: String = x.to_string();
+    let ss: &str = &s;
+}
 
 
 fn fib(n: u64) -> u64 {
