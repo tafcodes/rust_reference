@@ -78,17 +78,10 @@ fn main() {
 
 
     //later on I will make this a module that exports some things
-    println!("{}",fib(50));
+    println!("{}",fib(29));
 }
 
 fn fib(n: u64) -> u64 {
-    if n == 0 {
-        return 1
-    }
-
-    if n == 1 { 
-        return 1
-    }
-
-    fib(n - 1) + fib(n - 2)
+    //if is an expression, so you can do
+    if n <= 1 { 1 } else { fib(n - 1) + fib(n - 2) }
 }
