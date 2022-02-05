@@ -78,60 +78,8 @@ fn main() {
 
 
     //later on I will make this a module that exports some things
-    println!("{}",sfib("50"));
+    println!("{}",fib(50));
 }
-
-///calling a macro is an expression?
-
-//when you don't use a semicolon, it's only an expression,
-//not a statement
-fn sfib(n: &str) -> &str {
-    //now we'll shadow 
-
-
-    //I want to see the compiler warnings that I get, so
-    //let n: u32 = n.trim().parse(); //predict this will be a type mismatch
-    //because it will return a result that will NOT be implicitly used.
-    //nice!
-
-    //so it will actually have to be like this:
-    let n: u32 = match n.trim().parse() {
-            //we can also explicitly unwrap results if we need
-            Ok(num) => num, //this pattern is an Ok variant which contains a val
-            Err(_) => panic!("Couldn't parse n to int")
-            //in this case, the error handling is not to panic.
-    };
-
-
-    if n==0 || n==1 {
-        return "1"
-    }
-
-    let r1: u32 = match sfib(to_str(n -1)).parse(){
-        Ok(num) => num,
-        Err(_) => panic!("Couldn't parse r1 to int")
-    };
-
-    let r2: u32 = match sfib(to_str(n-2)).parse(){
-        Ok(num) => num,
-        Err(_) => panic!("Couldn't parse r2 to int")
-    };
-
-    let res = r1 + r2;
-    return &(res.to_string())
-
-}
-
-//now I'm just being deliberately bad
-fn to_str(x: u32) -> &'static str {
-    let s: String = x.to_string();
-    return &s;
-    //I am making an alloc'd string and then breaking it
-    //and using a reference to it's actual storage,
-    //which I believe will be persisted and not leaked because
-    //reference counting?
-}
-
 
 fn fib(n: u64) -> u64 {
     if n == 0 {
