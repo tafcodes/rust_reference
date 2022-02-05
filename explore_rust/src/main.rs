@@ -78,7 +78,7 @@ fn main() {
 
 
     //later on I will make this a module that exports some things
-    println!("{}",fib("50"));
+    println!("{}",sfib("50"));
 }
 
 ///calling a macro is an expression?
@@ -107,14 +107,29 @@ fn sfib(n: &str) -> &str {
         return "1"
     }
 
-    sfib(to_str(n -1)) + sfib(to_str(n-2))
+    let r1: u32 = match sfib(to_str(n -1)).parse(){
+        Ok(num) => num,
+        Err(_) => panic!("Couldn't parse r1 to int")
+    };
+
+    let r2: u32 = match sfib(to_str(n-2)).parse(){
+        Ok(num) => num,
+        Err(_) => panic!("Couldn't parse r2 to int")
+    };
+
+    let res = r1 + r2;
+    return &(res.to_string())
 
 }
 
 //now I'm just being deliberately bad
-fn to_str(x: u32) -> &str {
+fn to_str(x: u32) -> &'static str {
     let s: String = x.to_string();
-    let ss: &str = &s;
+    return &s;
+    //I am making an alloc'd string and then breaking it
+    //and using a reference to it's actual storage,
+    //which I believe will be persisted and not leaked because
+    //reference counting?
 }
 
 
