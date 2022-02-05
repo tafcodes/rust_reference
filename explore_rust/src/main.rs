@@ -83,5 +83,38 @@ fn main() {
 
 fn fib(n: u64) -> u64 {
     //if is an expression, so you can do
-    if n <= 1 { 1 } else { fib(n - 1) + fib(n - 2) }
+    if n <= 1 { 1 } 
+    else { 
+        fib(n - 1) + fib(n - 2) 
+    }
+}
+
+fn vget(v: Vector<T>, idx: {{Integer}})
+
+
+fn lfib(n: u64) -> u64 {
+    if n < 0 {panic!("Fib has domain above zero only");}
+    let mut fib_table = Vec::new();
+    fib_table.push(1);
+    fib_table.push(1);
+    let mut ct = 0;
+
+    let res = loop {
+        if ct == n { break fib_table.get(n) }
+        if ct == 1 { continue; }
+        fib_table.push(
+            match fib_table.get(ct - 1) {
+                Some(n)=>n,
+                None=>panic!("Vector index doesn't exist")
+            }
+            +
+            match fib_table.get(ct - 2) {
+                Some(n)=>n,
+                None=>panic!("Vector index doesn't exist")
+            }
+        );
+        ct+=1;
+    };
+
+    res
 }
