@@ -78,7 +78,22 @@ fn main() {
 
 
     //later on I will make this a module that exports some things
+    for r in 0..10 {
+        println!("{}", r)
+    }
     println!("{}",fib(29));
+    println!("{}",lfib(29));
+
+    use std::time::Instant;
+    let now = Instant::now();
+    fib(29);
+    let fib50time = now.elapsed();
+    let now = Instant::now();
+    lfib(29);
+    let lfib50time = now.elapsed();
+
+    println!("{:.2?} vs {:.2?}", fib50time, lfib50time)
+
 }
 
 fn fib(n: u64) -> u64 {
@@ -89,32 +104,21 @@ fn fib(n: u64) -> u64 {
     }
 }
 
-fn vget(v: Vector<T>, idx: {{Integer}})
-
-
 fn lfib(n: u64) -> u64 {
-    if n < 0 {panic!("Fib has domain above zero only");}
-    let mut fib_table = Vec::new();
-    fib_table.push(1);
-    fib_table.push(1);
-    let mut ct = 0;
+    let n=n+1;
+    let mut fib_table = vec![1_u64;n as usize];
+    for ct in 0..n {
+        if ct == 0 || ct == 1 { 
+            fib_table[ct as usize] = 1;
+            continue;
+        }
 
-    let res = loop {
-        if ct == n { break fib_table.get(n) }
-        if ct == 1 { continue; }
-        fib_table.push(
-            match fib_table.get(ct - 1) {
-                Some(n)=>n,
-                None=>panic!("Vector index doesn't exist")
-            }
+        fib_table[ct as usize] = {
+            fib_table[(ct - 1) as usize]
             +
-            match fib_table.get(ct - 2) {
-                Some(n)=>n,
-                None=>panic!("Vector index doesn't exist")
-            }
-        );
-        ct+=1;
+            fib_table[(ct - 2) as usize]
+        };
     };
-
-    res
+    return fib_table[(n-1) as usize]
+    
 }
