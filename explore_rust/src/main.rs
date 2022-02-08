@@ -96,6 +96,21 @@ fn main() {
 
 }
 
+fn benchmark() {
+    /*
+        runs fib and lfib from 1 to 35
+        checks results and durations
+        prints everything
+    */
+    //I want each row to be a struct with
+    // - n
+    // - fib(n) as both agreed with an assertion
+    // - time for fib(n)
+    // - time for lfib(n)
+
+
+}
+
 fn fib(n: u64) -> u64 {
     //if is an expression, so you can do
     if n <= 1 { 1 } 
