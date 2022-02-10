@@ -91,6 +91,7 @@ fn main() {
     let heap_string = String::from("This lives on the heap.");
     //below works, but then 'heap_string' is invalid.
     println!("halved is: {}", split_string_in_half(heap_string));
+    
     //println!("original was: {}", heap_string);
     //above commented line does NOT work, because heap_string was
     //moved in the previous line, so we can't borrow it.
@@ -103,6 +104,82 @@ fn main() {
     //and, now we still have heap_string_2:
     println!("heap_string_2 still lives: {}", heap_string_2);
 
+    // Alright, I've been using the word "by reference" in a C sense.
+    // Rust also lets you pass things "by reference", let's see what
+    // that is all about....
+
+    //let's supppose we want to do this:
+    //    let my_s = String::from("this is my string");
+    //    let len = calculate_length(my_s);
+    //    println!("Length of '{}' is {}.", my_s, len)
+    //we can't.  We have to pass out a reference instead of the String
+
+    //that looks like the below, and also we change calculate_length
+    //to accept an arg like (s: &String)
+    let my_s = String::from("this is my string");
+    let len = calculate_length(&my_s);
+    println!("Length of '{}' is {}.", my_s, len);
+
+    //a reference allows you to _refer_ to a variable without taking
+    // ---ownership--- of it.  
+
+    //Rust calls this "borrowing"
+
+
+    let mut s_will_be_modified = String::from("I am in");
+    //below won't work:
+    //  bad_change(&s_will_be_modified);
+    //below WILL work:
+    change(&mut s_will_be_modified);
+    println!("{}",s_will_be_modified);
+
+    //Another rule, which is going to be awesome for concurrency
+    //you can only have 1 mutable reference to a variable at a time.
+    //No immutable references may exist at the same time as a mut ref
+    
+    //HOWEVER
+    //Rust has Non Lexical Lifetimes which means things go out of scope
+    //after their last use....
+    //So, you can do this:
+    let mut s = String::from("Will be referenced a few times");
+    let r1 = &s; //
+    let r2 = &s; //this is OK because 2 immutable refs are allowed at
+    //once
+
+    //we cannot do the below borrow, because it's mut and we already
+    //have some refs in scope.
+    //let r3 = &mut s;
+    
+    println!("{} and {}", r1, r2);
+    
+    //This however, IS okay, because after r1 and r2 were used last
+    //they are out of scope because of NLL.  
+    let r4 = &mut s; 
+    println!("{}", r4);
+
+    //however, if the below is uncommented, we again get a compile
+    //error, because r1 is still valid at the time we're trying to 
+    //get a mut ref to s for r4.
+    //  println!("{}", r1);
+
+
+
+}
+
+fn change(s: &mut String) {
+    s.push_str("complete.");
+}
+
+////
+//This function won't even compile, because the compiler knows
+//that we'd never be able to modify something that wasn't passed
+//in as mut.
+//    fn bad_change(s: &String) {
+//      s.push_str("complete");
+//    }
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
 }
 
 fn split_string_in_half(s: String) -> String {
