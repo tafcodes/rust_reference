@@ -169,10 +169,61 @@ fn main() {
     //Slices:
     ////
 
-    //suppose we wanted the first 
+    //Slices are references.
+
+    //following the example.  We want the first word of a string,
+    //or the entire string if there's no spaces.
+    //without slices, we might do something like first_word_idx()
+
+    let mut multi_word_string = String::from("multiple words are here");
+    let end_of_first_word_in_multi_word_string = {
+        first_word_idx(&multi_word_string);
+    };
+    multi_word_string.clear();
+
+    //Now we have this "end of first word in multi word string" which sure seems
+    //like it should mean something, but now it kind of, in a sense, dangling.
+
+    //what would be nicer is if we use slices....
+    let slice_me_nice = String::from("Like a cake that wants to be baked");
+    let dessert = &slice_me_nice[7..11];
+    println!("dessert is {}", dessert);
+    let the_first_word = first_word(&slice_me_nice); //a &str
+
+    //now, this will NOT work, since we have a reference to SOME of this data
+    //still.  The compiler will keep our slice valid, because it is just a ref
+    //to the original data.
+    //   slice_me_nice.clear();
+    //ok, so actually the error here is "cannot borrow as mutable", but then,
+    //if you go to mark the var as mut, you will get "cannot borrow as mutable"
+    //BECAUSE IT IS ALSO BORROWED AS IMMUTABLE, and it will point right at the 
+    //line where we returned the slice.  
+
+    println!("The first word was: {} ", the_first_word);
+
 
 }
 
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+    &s[..]
+}
+
+fn first_word_idx(s: &String) -> usize {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {  //note the byte literal.  
+            return i;
+        }
+    }
+
+    s.len()
+}
 
 
 
