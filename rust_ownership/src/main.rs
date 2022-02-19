@@ -163,8 +163,19 @@ fn main() {
     //  println!("{}", r1);
 
 
+    //Rust's compiler prevents dangling references.  Neat.
+
+    ////
+    //Slices:
+    ////
+
+    //suppose we wanted the first 
 
 }
+
+
+
+
 
 fn change(s: &mut String) {
     s.push_str("complete.");
