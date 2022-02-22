@@ -203,6 +203,125 @@ fn main() {
     let sq2 = Rectangle::square(25);
     // :: also namespaces modules.
 
+
+    enum PetKind {
+        Dog,
+        Cat,
+        Fish,
+        Bird
+    }
+
+    let dog = PetKind::Dog;
+    //that syntax with the :: is interesting.  What does this tell us about how
+    //enums are implemented?
+
+    //lets return to that later.  What's nice is that Dogs Cats Fish etc are all
+    //kinds of pets and are all the same type, PetKind.  So a func can accept
+    //a type signature of an enum
+
+    fn feed(pet: PetKind) {
+        //feeds any kind of pet.
+    }
+
+    //alright I will go back to their example because they're doing a cool thing.
+    enum IpAddrS {
+        V4(String),
+        V6(String)
+    }
+    let home= IpAddrS::V4(String::from("127.0.0.1"));
+    let loopback = IpAddrS::V6(String::from("::1"));
+
+    //but that's not all.  An enums variants do not need to accept the same data
+    //we can set it up like this to be even better
+
+    enum IpAddr {
+        V4(u8,u8,u8,u8),
+        V6(String)
+    }
+    let home = IpAddr::V4(127,0,0,1);
+    let work = IpAddr::V6(String::from("::1234")); //yes I know that's not how ipv6 works.
+
+    //let's look at a useful enum included in the prelude, Option<T>
+    fn checked_division(dividend: i32, divisor: i32) -> Option<i32> {
+        if divisor == 0 {
+            None
+        } else {
+            Some(dividend / divisor )
+        }
+    }
+
+    fn try_dividing(dividend: i32, divisor: i32) {
+        match checked_division(dividend,divisor) {
+            None => println!("That's invalid.  Don't do that."),
+            Some(quotient) => {
+                println!("{} / {} = {}", dividend, divisor, quotient)
+            }
+        }
+    }
+
+    try_dividing(100, 10);
+    try_dividing(100, 0);
+
+    //we can also match enum types using matches.  
+    enum UsState {
+        Alabama,
+        Alaska,
+        Arkansas,
+        Pennsylvania,
+    }
+
+    enum Coin {
+        Penny,
+        Nickel,
+        Dime,
+        Quarter(Option<UsState>)
+    }
+
+    struct ChangePurse {
+        owner: String,
+        contents: Vec<Coin>,
+        completed_state_quarter_collection: bool
+    }
+
+    impl ChangePurse {
+        fn create(owner: String) -> ChangePurse {
+            ChangePurse {
+                owner,
+                Contents: Vec::new(), //type will be inferred????
+                completed_state_quarter_collection: false
+            }
+        }
+
+        fn add_coin(&self, c: Coin) {
+            self.contents.push(c);
+            
+        }
+
+        fn value_in_cents(&self) -> i32 {
+            let mut accum = 0;    
+            for coin in self.contents {
+                accum += match coin {
+                    Coin::Penny => 1,
+                    Coin::Nickel => 5,
+                    Coin::Dime => 10,
+                    Coin::Quarter(maybe_state) => 25
+                }
+            }
+            accum
+        }
+    }
+
+    fn value_of_changepurse(cp: &ChangePurse) -> i32 {
+        
+    }
+
+    let my_currency = ChangePurse {
+        owner: String::from("taf"),
+        contents: vec![Coin::Penny, Coin::Quarter(None), Coin::Dime]
+    };
+    println!("{} 's purse has {} cents", my_currency.owner,
+     value_of_changepurse(&my_currency));
+
 }
 
 //OK, but is a struct a _type_?
