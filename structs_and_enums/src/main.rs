@@ -262,7 +262,8 @@ fn main() {
     try_dividing(100, 10);
     try_dividing(100, 0);
 
-    //we can also match enum types using matches.  
+    //we can also match enum types using matches. 
+    #[derive(Debug)]
     enum UsState {
         Alabama,
         Alaska,
@@ -296,8 +297,25 @@ fn main() {
             }
         }
 
-        fn add_coin(&self, c: Coin) {
+        fn add_coin(&mut self, c: Coin) {
             //let my_contents=&self.contents;
+            /*match &c {
+                Coin::Quarter(ref maybe_state) => {
+                    match maybe_state {
+                        Some(s) => {println!("You collected {:?}", s);},
+                        None => {println!("No new state collected");}
+                    }
+                }
+                //other => {}
+                //_ => {}
+                _ => ()
+            }*/
+            //we can also write it like this with if lets
+            if let Coin::Quarter(Some(state)) = &c {
+                println!("You collected {:?}", state)
+            }
+
+
             self.contents.push(c);
         }
 
@@ -308,7 +326,10 @@ fn main() {
                     Coin::Penny => 1,
                     Coin::Nickel => 5,
                     Coin::Dime => 10,
-                    Coin::Quarter(maybe_state) => 25
+                    Coin::Quarter(maybe_state) => {
+                        //println!("{:?}", maybe_state);
+                        25
+                    }
                 }
             }
             accum
@@ -330,6 +351,7 @@ fn main() {
     my_currency.add_coin(Coin::Penny);
     my_currency.add_coin(Coin::Quarter(None));
     my_currency.add_coin(Coin::Dime);
+    my_currency.add_coin(Coin::Quarter(Some(UsState::Arkansas)));
     my_currency.status()
 
 }
